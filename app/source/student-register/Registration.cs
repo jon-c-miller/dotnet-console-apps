@@ -21,7 +21,7 @@ namespace ConsoleRegisterStudent
             Console.Write("\nPlease enter the number of the course you wish to register for: ");
         }
 
-        public void ValidateSelection(int choice)
+        public void HandleSelection(int choice)
         {
             // filter by registration result and provide feedback
             switch (ValidateRegistrationChoice(choice))
@@ -31,7 +31,20 @@ namespace ConsoleRegisterStudent
                     break;
 
                 case RegistrationResults.AlreadyRegistered:
-                    Console.WriteLine("Course {0} has already been registered for.", CourseDatabase.GetCourseInfo(choice));
+                    bool unregister = YesOrNoPrompt($"Course {CourseDatabase.GetCourseInfo(choice)} has already been registered for. Unregister?");
+                    if (unregister)
+                    {
+                        // find the registered course in the collection and set it back to 0
+                        for (int i = 0; i < registeredCourses.Length; i++)
+                        {
+                            if (registeredCourses[i] == choice)
+                            {
+                                registeredCourses[i] = 0;
+                                registeredCredits -= 3;
+                                break;
+                            }
+                        }
+                    }
                     break;
 
                 case RegistrationResults.RegisterSuccess:
@@ -67,6 +80,25 @@ namespace ConsoleRegisterStudent
                 if (registeredCourses[i] == 0) continue;
 
                 Console.WriteLine("{0}", CourseDatabase.GetCourseInfo(registeredCourses[i]));
+            }
+        }
+
+        public bool YesOrNoPrompt(string promptText)
+        {
+            // end line when first entering the prompt
+            Console.Write("\n");
+
+            // loop until the user gives y or n
+            string continueChoice;
+            while (true)
+            {
+                Console.Write($"{promptText}");
+                continueChoice = Console.ReadLine().ToUpper();
+                if (continueChoice == "N")
+                    return false;
+                else if (continueChoice == "Y")
+                    return true;
+                else continue;
             }
         }
 
