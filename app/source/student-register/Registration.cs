@@ -10,8 +10,7 @@ namespace ConsoleRegisterStudent
         int creditPerCourse = 3;    // determines credit given per course
         int maxCourses = 3;         // limits maximum amount of courses a student can register for
 
-        public int MaxCredits => creditPerCourse * registeredCourses.Length;
-        public int CurrentCredits => registeredCredits;
+        int maxCredits => creditPerCourse * registeredCourses.Length;
 
         public void Prompt()
         {
@@ -65,7 +64,7 @@ namespace ConsoleRegisterStudent
             }
         }
 
-        public void DisplayRegistered()
+        public void DisplayRegisteredCourses()
         {
             ConsoleExtensions.PrintToConsole("Current Registrations: ");
 
@@ -88,6 +87,25 @@ namespace ConsoleRegisterStudent
                 ConsoleExtensions.PrintToConsole($"{CourseDatabase.GetCourseInfo(registeredCourses[i])}");
             }
             ConsoleExtensions.PrintToConsole("", true);
+        }
+
+        public bool TryContinueRegistration()
+        {
+            // continue registering or end registration
+            bool continueRegistering = true;
+            if (registeredCredits == maxCredits)
+            {
+                ConsoleExtensions.PrintToConsole($"You have registered for the maximum of {maxCredits} credit hours. ", true);
+                return false;
+            }
+            else continueRegistering = ConsoleExtensions.YesOrNoPrompt("Continue with registration? (Y/N): ", true);
+
+            // final exit prompt for if the user tries to quit before registering for all classes
+            if (!continueRegistering)
+            {
+                return ConsoleExtensions.YesOrNoPrompt("Course registration has not been completed. Return to registration? (Y/N): ");
+            }
+            return true;
         }
 
         RegistrationResults ValidateRegistrationChoice(int choice)

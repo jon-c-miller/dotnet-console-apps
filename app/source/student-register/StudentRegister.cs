@@ -20,23 +20,10 @@ namespace ConsoleRegisterStudent
                 if (!int.TryParse(input, out int choice)) continue;
 
                 registration.HandleSelection(choice);
-                
-                // provide the user with a list of registrations at each iteration
-                registration.DisplayRegistered();
 
-                // continue registering or end registration
-                if (registration.CurrentCredits == registration.MaxCredits)
-                {
-                    ConsoleExtensions.PrintToConsole($"You have registered for the maximum of {registration.MaxCredits} credit hours. ", true);
-                    break;
-                }
-                else continueRegistration = ConsoleExtensions.YesOrNoPrompt("Continue with registration? (Y/N): ", true);
-                
-                // final exit prompt for if the user tries to quit before registering for all classes
-                if (!continueRegistration)
-                {
-                    continueRegistration = ConsoleExtensions.YesOrNoPrompt("Course registration has not been completed. Return to registration? (Y/N): ");
-                }
+                registration.DisplayRegisteredCourses();
+
+                continueRegistration = registration.TryContinueRegistration();
             }
             
             // final message before exit
