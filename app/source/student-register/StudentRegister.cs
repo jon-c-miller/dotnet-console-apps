@@ -2,9 +2,11 @@ namespace ConsoleRegisterStudent
 {
     class StudentRegister
     {
+        // maximum of 3 possible courses to register for
+        int[] registeredCourses = new int[3];
+
         public void Run()
         {
-            int    firstChoice = 0, secondChoice = 0, thirdChoice = 0;
             int    totalCredit = 0;
 
             //loop until user chooses to quit or registers for 3 classes
@@ -22,7 +24,7 @@ namespace ConsoleRegisterStudent
                 }
                 
                 //pass the variables for the user choice and user selections over for comparison and validation
-                switch (ValidateChoice(choice, firstChoice, secondChoice, thirdChoice, totalCredit))
+                switch (choice)
                 {
                     //invalid selection
                     case -1:
@@ -36,18 +38,21 @@ namespace ConsoleRegisterStudent
                     case 0:
                         Console.WriteLine("Registration confirmed for course {0}.", ChoiceToCourse(choice));
                         totalCredit += 3;
-                        
-                        //'fill in' the course assignments from the bottom up by checking until an 'empty' one is found; break out of switch
-                        if (firstChoice == 0)
-                            firstChoice = choice;
-                        else if (secondChoice == 0)
-                            secondChoice = choice;
-                        else if (thirdChoice == 0)
-                            thirdChoice = choice;
+
+                        // 'fill in' the course assignments as courses are registered
+                        for (int i = 0; i < registeredCourses.Length; i++)
+                        {
+                            if (registeredCourses[i] == 0)
+                            {
+                                registeredCourses[i] = choice;
+                                break;
+                            }
+                        }
                         break;
                 }
-                //provide the user with a list of registrations at each iteration
-                WriteCurrentRegistration(firstChoice, secondChoice, thirdChoice);
+
+                // provide the user with a list of registrations at each iteration
+                DisplayRegisteredCourses();
 
                 //break out of the loop once 3 classes have been registered
                 if (totalCredit == 9)
@@ -112,24 +117,28 @@ namespace ConsoleRegisterStudent
             return 0;
         }
 
-        //display registered courses to the user if active
-        void WriteCurrentRegistration(int firstChoice, int secondChoice, int thirdChoice)
+        void DisplayRegisteredCourses()
         {
-            if (firstChoice == 0)
+            if (registeredCourses[0] == 0)
             {
                 Console.WriteLine("\nThere are no current registrations.");
             }
-            else { Console.Write("\nCurrent registrations: "); }
-
-            if (secondChoice == 0)
-            {
-                Console.WriteLine("\n{0}", ChoiceToCourse(firstChoice));
-            }
-            else if (thirdChoice == 0)
-                Console.WriteLine("\n{0}\n{1}", ChoiceToCourse(firstChoice), ChoiceToCourse(secondChoice));
             else
             {
-                Console.WriteLine("\n{0}\n{1}\n{2}", ChoiceToCourse(firstChoice), ChoiceToCourse(secondChoice), ChoiceToCourse(thirdChoice));
+                Console.Write("\nCurrent registrations: ");
+
+                if (registeredCourses[1] == 0)
+                {
+
+                }
+                else if (registeredCourses[2] == 0)
+                {
+
+                }
+                else
+                {
+                    
+                }
             }
         }
 
