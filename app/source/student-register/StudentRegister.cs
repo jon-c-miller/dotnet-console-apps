@@ -133,26 +133,20 @@ namespace ConsoleRegisterStudent
 
         void DisplayRegisteredCourses()
         {
+            Console.Write("\nCurrent registrations: ");
+            Console.WriteLine("\n");
+
             if (registeredCourses[0] == 0)
             {
-                Console.WriteLine("\nThere are no current registrations.");
+                Console.WriteLine("<None>");
+                return;
             }
-            else
-            {
-                Console.Write("\nCurrent registrations: ");
 
-                if (registeredCourses[1] == 0)
-                {
-                    Console.WriteLine("\n{0}", Database.GetCourseInfo(registeredCourses[0]));
-                }
-                else if (registeredCourses[2] == 0)
-                {
-                    Console.WriteLine("\n{0}\n{1}", Database.GetCourseInfo(registeredCourses[0]), Database.GetCourseInfo(registeredCourses[1]));
-                }
-                else
-                {
-                    Console.WriteLine("\n{0}\n{1}\n{2}", Database.GetCourseInfo(registeredCourses[0]), Database.GetCourseInfo(registeredCourses[1]), Database.GetCourseInfo(registeredCourses[2]));
-                }
+            for (int i = 0; i < registeredCourses.Length; i++)
+            {
+                if (registeredCourses[i] == 0) continue;
+
+                Console.WriteLine("{0}", Database.GetCourseInfo(registeredCourses[i]));
             }
         }
     }
