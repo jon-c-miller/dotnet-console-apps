@@ -7,10 +7,10 @@ namespace ConsoleRegisterStudent
             int    choice;
             int    firstChoice = 0, secondChoice = 0, thirdChoice = 0;
             int    totalCredit = 0;
-            string yesOrNo     = "";
 
             //loop until user chooses to quit or registers for 3 classes
-            do
+            bool continueRegistration = true;
+            while (continueRegistration)
             {
                 WritePrompt();
                 //convert the user choice from string to int
@@ -43,31 +43,44 @@ namespace ConsoleRegisterStudent
                 }
                 //provide the user with a list of registrations at each iteration
                 WriteCurrentRegistration(firstChoice, secondChoice, thirdChoice);
-                
+
                 //break out of the loop once 3 classes have been registered
                 if (totalCredit == 9)
                 {
                     Console.WriteLine("\nYou have registered for the maximum of 9 credit hours. ");
                     break;
                 }
-                //prompt user for continue
-                else
-                {
-                    Console.Write("\nContinue with registration? (Y/N): ");
-                    yesOrNo = (Console.ReadLine()).ToUpper();
-                }
+                else continueRegistration = YesOrNoPrompt("Continue with registration? (Y/N): ");
                 
                 //final exit prompt for if the user hits N before registering for all classes
-                if (yesOrNo == "N")
+                if (!continueRegistration)
                 {
-                    Console.Write("You have not yet completed course registration. Continue? (Y/N): ");
-                    yesOrNo = (Console.ReadLine()).ToUpper();
+                    continueRegistration = YesOrNoPrompt("You have not yet completed course registration. Continue? (Y/N): ");
                 }
-            } while (yesOrNo == "Y");
+            }
             
             //final message before exit
             Console.WriteLine("\nThank you for registering with us.");
             Console.ReadKey();
+        }
+
+        bool YesOrNoPrompt(string promptText)
+        {
+            // end line when first entering the prompt
+            Console.Write("\n");
+
+            // loop until the user gives y or n
+            string continueChoice;
+            while (true)
+            {
+                Console.Write($"{promptText}");
+                continueChoice = Console.ReadLine().ToUpper();
+                if (continueChoice == "N")
+                    return false;
+                else if (continueChoice == "Y")
+                    return true;
+                else continue;
+            }
         }
 
         //show available courses and prompt user for a course to register; populate using data from ChoiceToCourse
