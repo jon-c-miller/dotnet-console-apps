@@ -11,6 +11,8 @@ public static class Database
         { 7, "IT 330" }
     };
 
+    public static int CourseCount => Courses.Count;
+
     public static string GetCourseInfo(params int[] courseIDs)
     {
         var sb = new System.Text.StringBuilder();

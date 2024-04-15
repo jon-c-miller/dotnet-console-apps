@@ -4,11 +4,17 @@ namespace ConsoleRegisterStudent
     {
         // maximum of 3 possible courses to register for
         int[] registeredCourses = new int[3];
+        int registeredCredits = 0;
+
+        enum RegistrationResults
+        {
+            InvalidChoice,
+            AlreadyRegistered,
+            RegisterSuccess,
+        }
 
         public void Run()
         {
-            int    totalCredit = 0;
-
             //loop until user chooses to quit or registers for 3 classes
             bool continueRegistration = true;
             while (continueRegistration)
@@ -23,18 +29,22 @@ namespace ConsoleRegisterStudent
                     continue;
                 }
                 
-                //pass the variables for the user choice and user selections over for comparison and validation
-                switch (choice)
+                // filter by registration result and provide feedback
+                switch (ValidateRegistrationChoice(choice))
                 {
-                    case -2:
+                    case RegistrationResults.InvalidChoice:
+                        Console.WriteLine("Selection of '{0}' is not a recognized course.", input);
+                        break;
+
+                    case RegistrationResults.AlreadyRegistered:
                         Console.WriteLine("Course {0} has already been registered for.", Database.GetCourseInfo(choice));
                         break;
 
-                    case 0:
+                    case RegistrationResults.RegisterSuccess:
                         Console.WriteLine("Registration confirmed for {0}.", Database.GetCourseInfo(choice));
-                        totalCredit += 3;
-
-                        // 'fill in' the course assignments as courses are registered
+                        registeredCredits += 3;
+                        
+                        // 'fill in' the course assignment slots as courses are registered
                         for (int i = 0; i < registeredCourses.Length; i++)
                         {
                             if (registeredCourses[i] == 0)
@@ -50,7 +60,7 @@ namespace ConsoleRegisterStudent
                 DisplayRegisteredCourses();
 
                 //break out of the loop once 3 classes have been registered
-                if (totalCredit == 9)
+                if (registeredCredits == 9)
                 {
                     Console.WriteLine("\nYou have registered for the maximum of 9 credit hours. ");
                     break;
@@ -99,13 +109,26 @@ namespace ConsoleRegisterStudent
             Console.Write("\nPlease enter the number of the course you wish to register for: ");
         }
 
-        //validation for user input before assigning courses
-        int ValidateChoice(int choice, int firstChoice, int secondChoice, int thirdChoice, int totalCredit)
+        RegistrationResults ValidateRegistrationChoice(int choice)
         {
-            //compare the current choice against each of the registered courses
-            if (choice == firstChoice || choice == secondChoice || choice == thirdChoice)
-                return -2;
-            else return 0;
+            if (choice < 0 || choice >= Database.CourseCount)
+            {
+                // reject choice if course number is invalid
+                return RegistrationResults.InvalidChoice;
+            }
+            else
+            {
+                // reject choice if course already registered
+                for (int i = 0; i < registeredCourses.Length; i++)
+                {
+                    if (registeredCourses[i] == choice)
+                    {
+                        return RegistrationResults.AlreadyRegistered;
+                    }
+                }
+            }
+
+            return RegistrationResults.RegisterSuccess;
         }
 
         void DisplayRegisteredCourses()
