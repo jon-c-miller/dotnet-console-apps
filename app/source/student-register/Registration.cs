@@ -16,9 +16,9 @@ namespace ConsoleRegisterStudent
         {
             // show available courses and prompt user for a course to register; populate using data from ChoiceToCourse
             Console.Clear();
-            ConsoleExtensions.PrintToConsole("Courses available for registration:");
+            ConsoleExtensions.PrintToConsole("-- Course List --");
             ConsoleExtensions.PrintToConsole(CourseDatabase.GetAllCourses(registeredCourses), false, true);
-            ConsoleExtensions.PrintToConsole($"Please enter the id of the course you wish to register for (1 - {CourseDatabase.CourseCount}): ", true);
+            ConsoleExtensions.PrintToConsole($"Please enter a course id (1 - {CourseDatabase.CourseCount}): ", true);
         }
 
         public void HandleSelection(int choice)
@@ -47,26 +47,34 @@ namespace ConsoleRegisterStudent
                     }
                     break;
 
-                case RegistrationResults.RegisterSuccess:
-                    ConsoleExtensions.PrintToConsole($"Registered for {CourseDatabase.GetCourseInfo(choice)}. ", true);
-                    registeredCredits += creditPerCourse;
-                    
-                    // 'fill in' the course assignment slots as courses are registered
-                    for (int i = 0; i < registeredCourses.Length; i++)
+                case RegistrationResults.CanRegister:
+                    if (registeredCredits < maxCredits)
                     {
-                        if (registeredCourses[i] == 0)
+                        bool confirm = ConsoleExtensions.YesOrNoPrompt($"Register for {CourseDatabase.GetCourseInfo(choice)}? (Y/N): ", true);
+                        if (confirm)
                         {
-                            registeredCourses[i] = choice;
-                            break;
+                            ConsoleExtensions.PrintToConsole($"Course registered. ", true);
+                            registeredCredits += creditPerCourse;
+                            
+                            // 'fill in' the course assignment slots as courses are registered
+                            for (int i = 0; i < registeredCourses.Length; i++)
+                            {
+                                if (registeredCourses[i] == 0)
+                                {
+                                    registeredCourses[i] = choice;
+                                    break;
+                                }
+                            }
                         }
                     }
+                    else ConsoleExtensions.PrintToConsole("The maximum number of courses has been registered for. Please unregister for a course first. ", true);
                     break;
             }
         }
 
         public void DisplayRegisteredCourses()
         {
-            ConsoleExtensions.PrintToConsole("Current Registrations: ");
+            ConsoleExtensions.PrintToConsole("Current Registrations: ", true);
 
             if (registeredCourses[0] == 0)
             {
@@ -95,8 +103,27 @@ namespace ConsoleRegisterStudent
             bool continueRegistering = true;
             if (registeredCredits == maxCredits)
             {
+                // confirm finalizing the selected courses
+                bool finalize = false;
                 ConsoleExtensions.PrintToConsole($"You have registered for the maximum of {maxCredits} credit hours. ", true);
-                return false;
+                finalize = ConsoleExtensions.YesOrNoPrompt("Finalize course selections? (Y/N): ", true);
+
+                // give user a chance to reset the course registrations
+                if (!finalize)
+                {
+                    bool reset = ConsoleExtensions.YesOrNoPrompt("Reset course registrations? (Y/N): ", true);
+                    if (reset)
+                    {
+                        registeredCredits = 0;
+                        for (int i = 0; i < registeredCourses.Length; i++)
+                            registeredCourses[i] = 0;
+
+                        ConsoleExtensions.PrintToConsole("Course registrations reset. Press any key to continue...");
+                        Console.ReadKey();
+                    }
+                    return true;
+                }
+                else return false;
             }
             else continueRegistering = ConsoleExtensions.YesOrNoPrompt("Continue with registration? (Y/N): ", true);
 
@@ -125,7 +152,7 @@ namespace ConsoleRegisterStudent
                 }
             }
 
-            return RegistrationResults.RegisterSuccess;
+            return RegistrationResults.CanRegister;
         }
     }
 
@@ -133,6 +160,7 @@ namespace ConsoleRegisterStudent
     {
         InvalidChoice,
         AlreadyRegistered,
-        RegisterSuccess,
+        CanRegister,
+        Null,
     }
 }
