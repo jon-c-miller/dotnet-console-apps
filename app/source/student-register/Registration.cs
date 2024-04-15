@@ -2,13 +2,16 @@ namespace ConsoleRegisterStudent
 {
     public class Registration
     {
-        // maximum of 3 possible courses to register for
-        int[] registeredCourses = new int[3];
-        int registeredCredits;
+        // initialize course selection collection
+        public Registration() => registeredCourses = new int[maxCourses];
 
-        public readonly int MaxCredits = 9;
+        int[] registeredCourses;    // stores student selection for courses
+        int registeredCredits;      // tracks currently registered credits
+        int creditPerCourse = 3;    // determines credit given per course
+        int maxCourses = 3;         // limits maximum amount of courses a student can register for
+
+        public int MaxCredits => creditPerCourse * registeredCourses.Length;
         public int CurrentCredits => registeredCredits;
-        public int[] RegisteredCourses => registeredCourses;
 
         public void Prompt()
         {
@@ -40,7 +43,7 @@ namespace ConsoleRegisterStudent
                             if (registeredCourses[i] == choice)
                             {
                                 registeredCourses[i] = 0;
-                                registeredCredits -= 3;
+                                registeredCredits -= creditPerCourse;
                                 break;
                             }
                         }
@@ -49,7 +52,7 @@ namespace ConsoleRegisterStudent
 
                 case RegistrationResults.RegisterSuccess:
                     Console.WriteLine("Registration confirmed for {0}.", CourseDatabase.GetCourseInfo(choice));
-                    registeredCredits += 3;
+                    registeredCredits += creditPerCourse;
                     
                     // 'fill in' the course assignment slots as courses are registered
                     for (int i = 0; i < registeredCourses.Length; i++)
