@@ -83,9 +83,9 @@ namespace ConsoleRegisterStudent
 
                 displayedCourses++;
                 if (displayedCourses > 1)
-                    Console.Write(", ");
+                    ConsoleExtensions.PrintToConsole(", ");
                 
-                Console.Write("{0}", CourseDatabase.GetCourseInfo(registeredCourses[i]));
+                ConsoleExtensions.PrintToConsole($"{CourseDatabase.GetCourseInfo(registeredCourses[i])}");
             }
             ConsoleExtensions.PrintToConsole("", true);
         }

@@ -27,7 +27,7 @@ namespace ConsoleRegisterStudent
                 // continue registering or end registration
                 if (registration.CurrentCredits == registration.MaxCredits)
                 {
-                    Console.WriteLine("\nYou have registered for the maximum of {0} credit hours. ", registration.MaxCredits);
+                    ConsoleExtensions.PrintToConsole($"You have registered for the maximum of {registration.MaxCredits} credit hours. ", true);
                     break;
                 }
                 else continueRegistration = ConsoleExtensions.YesOrNoPrompt("Continue with registration? (Y/N): ", true);
@@ -40,7 +40,8 @@ namespace ConsoleRegisterStudent
             }
             
             // final message before exit
-            Console.WriteLine("\nThank you for using the student self-registration system. Have a nice day!");
+            ConsoleExtensions.PrintToConsole("Thank you for using the student self-registration system. Have a nice day!", true);
+            ConsoleExtensions.PrintToConsole("Press any key to quit...", true);
             Console.ReadKey();
         }
     }
