@@ -18,12 +18,8 @@ namespace ConsoleRegisterStudent
             // show available courses and prompt user for a course to register; populate using data from ChoiceToCourse
             Console.Clear();
             PrintLine("Courses available for registration:");
-            // Console.WriteLine("Courses available for registration:");
             PrintLine(CourseDatabase.GetAllCourses(registeredCourses), false, true);
-            // Console.WriteLine(CourseDatabase.GetAllCourses(registeredCourses));
-
             PrintLine($"Please enter the id of the course you wish to register for (1 - {CourseDatabase.CourseCount}): ", true);
-            // Console.Write("\nPlease enter the number of the course you wish to register for: ");
         }
 
         public void HandleSelection(int choice)
@@ -32,8 +28,7 @@ namespace ConsoleRegisterStudent
             switch (ValidateRegistrationChoice(choice))
             {
                 case RegistrationResults.InvalidChoice:
-                    PrintLine($"'{choice}' is not a valid course id. ");
-                    // Console.WriteLine("Selection of '{0}' is not a recognized course.", choice);
+                    PrintLine($"'{choice}' is not a valid course id. ", true);
                     break;
 
                 case RegistrationResults.AlreadyRegistered:
@@ -54,8 +49,7 @@ namespace ConsoleRegisterStudent
                     break;
 
                 case RegistrationResults.RegisterSuccess:
-                    PrintLine($"Registered for {CourseDatabase.GetCourseInfo(choice)}. ");
-                    // Console.WriteLine("Registration confirmed for {0}.", CourseDatabase.GetCourseInfo(choice));
+                    PrintLine($"Registered for {CourseDatabase.GetCourseInfo(choice)}. ", true);
                     registeredCredits += creditPerCourse;
                     
                     // 'fill in' the course assignment slots as courses are registered
@@ -73,14 +67,11 @@ namespace ConsoleRegisterStudent
 
         public void DisplayRegistered()
         {
-            // Console.Write("Current registrations: ");
             PrintLine("Current Registrations: ");
-            // Console.WriteLine("\n");
 
             if (registeredCourses[0] == 0)
             {
                 PrintLine("<None>", false, true);
-                // Console.WriteLine("<None>");
                 return;
             }
 
@@ -96,7 +87,6 @@ namespace ConsoleRegisterStudent
                 
                 Console.Write("{0}", CourseDatabase.GetCourseInfo(registeredCourses[i]));
             }
-            // Console.Write("\n");
             PrintLine("", true);
         }
 
