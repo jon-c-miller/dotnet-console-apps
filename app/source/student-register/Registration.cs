@@ -72,7 +72,7 @@ namespace ConsoleRegisterStudent
 
         RegistrationResults ValidateRegistrationChoice(int choice)
         {
-            if (choice < 0 || choice >= CourseDatabase.CourseCount)
+            if (choice < 0 || choice > CourseDatabase.CourseCount)
             {
                 // reject choice if course number is invalid
                 return RegistrationResults.InvalidChoice;
