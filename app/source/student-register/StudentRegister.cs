@@ -26,17 +26,12 @@ namespace ConsoleRegisterStudent
                 //pass the variables for the user choice and user selections over for comparison and validation
                 switch (choice)
                 {
-                    //invalid selection
-                    case -1:
-                        Console.WriteLine("Your entered selection of '{0}' is not a recognized course.", choice);
-                        break;
-                    //duplicate selection
                     case -2:
-                        Console.WriteLine("You have already registered for course {0}.", ChoiceToCourse(choice));
+                        Console.WriteLine("Course {0} has already been registered for.", Database.GetCourseInfo(choice));
                         break;
-                    //registration confirmation
+
                     case 0:
-                        Console.WriteLine("Registration confirmed for course {0}.", ChoiceToCourse(choice));
+                        Console.WriteLine("Registration confirmed for {0}.", Database.GetCourseInfo(choice));
                         totalCredit += 3;
 
                         // 'fill in' the course assignments as courses are registered
@@ -93,14 +88,13 @@ namespace ConsoleRegisterStudent
             }
         }
 
-        // show available courses and prompt user for a course to register; populate using data from ChoiceToCourse
         void PromptForRegistration()
         {
+            // show available courses and prompt user for a course to register; populate using data from ChoiceToCourse
             Console.Clear();
-            Console.WriteLine("Courses available for registration: \n\n[1] {0} \n[2] {1} \n[3] {2} \n[4] {3} \n[5] {4} \n[6] {5} \n[7] {6}",
-                "" + ChoiceToCourse(1), ChoiceToCourse(2), ChoiceToCourse(3),
-                "" + ChoiceToCourse(4), ChoiceToCourse(5), ChoiceToCourse(6),
-                "" + ChoiceToCourse(7));
+            Console.WriteLine("Courses available for registration:");
+
+            Console.WriteLine(Database.GetAllCourses());
 
             Console.Write("\nPlease enter the number of the course you wish to register for: ");
         }
@@ -108,13 +102,10 @@ namespace ConsoleRegisterStudent
         //validation for user input before assigning courses
         int ValidateChoice(int choice, int firstChoice, int secondChoice, int thirdChoice, int totalCredit)
         {
-            //reject user input as an invalid number
-            if (choice < 1 || choice > 7)
-                return -1;
             //compare the current choice against each of the registered courses
-            else if (choice == firstChoice || choice == secondChoice || choice == thirdChoice)
+            if (choice == firstChoice || choice == secondChoice || choice == thirdChoice)
                 return -2;
-            return 0;
+            else return 0;
         }
 
         void DisplayRegisteredCourses()
@@ -129,50 +120,17 @@ namespace ConsoleRegisterStudent
 
                 if (registeredCourses[1] == 0)
                 {
-
+                    Console.WriteLine("\n{0}", Database.GetCourseInfo(registeredCourses[0]));
                 }
                 else if (registeredCourses[2] == 0)
                 {
-
+                    Console.WriteLine("\n{0}\n{1}", Database.GetCourseInfo(registeredCourses[0]), Database.GetCourseInfo(registeredCourses[1]));
                 }
                 else
                 {
-                    
+                    Console.WriteLine("\n{0}\n{1}\n{2}", Database.GetCourseInfo(registeredCourses[0]), Database.GetCourseInfo(registeredCourses[1]), Database.GetCourseInfo(registeredCourses[2]));
                 }
             }
-        }
-
-        //hold course name information for referencing
-        string ChoiceToCourse(int choice)
-        {
-            string course = "";
-            switch (choice)
-            {
-                case 1:
-                    course = "IT 145";
-                    break;
-                case 2:
-                    course = "IT 200";
-                    break;
-                case 3:
-                    course = "IT 201";
-                    break;
-                case 4:
-                    course = "IT 270";
-                    break;
-                case 5:
-                    course = "IT 315";
-                    break;
-                case 6:
-                    course = "IT 328";
-                    break;
-                case 7:
-                    course = "IT 330";
-                    break;
-                default:
-                    break;
-            }
-            return course;
         }
     }
 }
