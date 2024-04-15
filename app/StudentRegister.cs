@@ -4,7 +4,6 @@ namespace ConsoleRegisterStudent
     {
         public void Run()
         {
-            int    choice;
             int    firstChoice = 0, secondChoice = 0, thirdChoice = 0;
             int    totalCredit = 0;
 
@@ -12,9 +11,15 @@ namespace ConsoleRegisterStudent
             bool continueRegistration = true;
             while (continueRegistration)
             {
-                WritePrompt();
-                //convert the user choice from string to int
-                choice = Convert.ToInt32(Console.ReadLine());
+                PromptForRegistration();
+
+                string input = Console.ReadLine();
+
+                // filter out non-integer input
+                if (!int.TryParse(input, out int choice))
+                {
+                    continue;
+                }
                 
                 //pass the variables for the user choice and user selections over for comparison and validation
                 switch (ValidateChoice(choice, firstChoice, secondChoice, thirdChoice, totalCredit))
@@ -83,8 +88,8 @@ namespace ConsoleRegisterStudent
             }
         }
 
-        //show available courses and prompt user for a course to register; populate using data from ChoiceToCourse
-        void WritePrompt()
+        // show available courses and prompt user for a course to register; populate using data from ChoiceToCourse
+        void PromptForRegistration()
         {
             Console.Clear();
             Console.WriteLine("Courses available for registration: \n\n[1] {0} \n[2] {1} \n[3] {2} \n[4] {3} \n[5] {4} \n[6] {5} \n[7] {6}",
