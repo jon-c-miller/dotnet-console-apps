@@ -8,7 +8,7 @@ namespace ConsoleRegisterStudent
         {
             registration = new();
 
-            // loop until user chooses to quit or registers for 3 classes
+            // loop until user chooses to quit or registers for maximum amount of courses
             bool continueRegistration = true;
             while (continueRegistration)
             {

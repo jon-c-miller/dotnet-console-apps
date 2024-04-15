@@ -2,7 +2,7 @@ namespace ConsoleRegisterStudent
 {
     public class Registration
     {
-        // initialize course selection collection
+        // initialize registered courses collection in constructor
         public Registration() => registeredCourses = new int[maxCourses];
 
         int[] registeredCourses;    // stores student selection for courses
