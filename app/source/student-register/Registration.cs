@@ -17,9 +17,9 @@ namespace ConsoleRegisterStudent
         {
             // show available courses and prompt user for a course to register; populate using data from ChoiceToCourse
             Console.Clear();
-            PrintLine("Courses available for registration:");
-            PrintLine(CourseDatabase.GetAllCourses(registeredCourses), false, true);
-            PrintLine($"Please enter the id of the course you wish to register for (1 - {CourseDatabase.CourseCount}): ", true);
+            ConsoleExtensions.PrintToConsole("Courses available for registration:");
+            ConsoleExtensions.PrintToConsole(CourseDatabase.GetAllCourses(registeredCourses), false, true);
+            ConsoleExtensions.PrintToConsole($"Please enter the id of the course you wish to register for (1 - {CourseDatabase.CourseCount}): ", true);
         }
 
         public void HandleSelection(int choice)
@@ -28,11 +28,11 @@ namespace ConsoleRegisterStudent
             switch (ValidateRegistrationChoice(choice))
             {
                 case RegistrationResults.InvalidChoice:
-                    PrintLine($"'{choice}' is not a valid course id. ", true);
+                    ConsoleExtensions.PrintToConsole($"'{choice}' is not a valid course id. ", true);
                     break;
 
                 case RegistrationResults.AlreadyRegistered:
-                    bool unregister = YesOrNoPrompt($"Course {CourseDatabase.GetCourseInfo(choice)} has already been registered for. Unregister? (Y/N): ");
+                    bool unregister = ConsoleExtensions.YesOrNoPrompt($"Course {CourseDatabase.GetCourseInfo(choice)} has already been registered for. Unregister? (Y/N): ");
                     if (unregister)
                     {
                         // find the registered course in the collection and set it back to 0
@@ -49,7 +49,7 @@ namespace ConsoleRegisterStudent
                     break;
 
                 case RegistrationResults.RegisterSuccess:
-                    PrintLine($"Registered for {CourseDatabase.GetCourseInfo(choice)}. ", true);
+                    ConsoleExtensions.PrintToConsole($"Registered for {CourseDatabase.GetCourseInfo(choice)}. ", true);
                     registeredCredits += creditPerCourse;
                     
                     // 'fill in' the course assignment slots as courses are registered
@@ -67,11 +67,11 @@ namespace ConsoleRegisterStudent
 
         public void DisplayRegistered()
         {
-            PrintLine("Current Registrations: ");
+            ConsoleExtensions.PrintToConsole("Current Registrations: ");
 
             if (registeredCourses[0] == 0)
             {
-                PrintLine("<None>", false, true);
+                ConsoleExtensions.PrintToConsole("<None>", false, true);
                 return;
             }
 
@@ -87,39 +87,7 @@ namespace ConsoleRegisterStudent
                 
                 Console.Write("{0}", CourseDatabase.GetCourseInfo(registeredCourses[i]));
             }
-            PrintLine("", true);
-        }
-
-        public bool YesOrNoPrompt(string promptText, bool endlineBefore = false)
-        {
-            // end line when first entering the prompt
-            if (endlineBefore)
-                Console.Write("\n");
-
-            // loop until the user gives y or n
-            string continueChoice;
-            while (true)
-            {
-                Console.Write($"{promptText}");
-                continueChoice = Console.ReadLine().ToUpper();
-                if (continueChoice == "N")
-                    return false;
-                else if (continueChoice == "Y")
-                    return true;
-                else continue;
-            }
-        }
-
-        void PrintLine(string message, bool endlineBefore = false, bool endlineAfter = false)
-        {
-            // print the given message with optional line spacing before and after
-            if (endlineBefore)
-                Console.Write("\n");
-
-            Console.Write(message);
-
-            if (endlineAfter)
-                Console.Write("\n");
+            ConsoleExtensions.PrintToConsole("", true);
         }
 
         RegistrationResults ValidateRegistrationChoice(int choice)
