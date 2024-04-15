@@ -15,7 +15,7 @@ namespace ConsoleRegisterStudent
 
         public void Run()
         {
-            //loop until user chooses to quit or registers for 3 classes
+            // loop until user chooses to quit or registers for 3 classes
             bool continueRegistration = true;
             while (continueRegistration)
             {
@@ -59,7 +59,7 @@ namespace ConsoleRegisterStudent
                 // provide the user with a list of registrations at each iteration
                 DisplayRegisteredCourses();
 
-                //break out of the loop once 3 classes have been registered
+                // continue registering or end registration
                 if (registeredCredits == 9)
                 {
                     Console.WriteLine("\nYou have registered for the maximum of 9 credit hours. ");
@@ -67,15 +67,15 @@ namespace ConsoleRegisterStudent
                 }
                 else continueRegistration = YesOrNoPrompt("Continue with registration? (Y/N): ");
                 
-                //final exit prompt for if the user hits N before registering for all classes
+                // final exit prompt for if the user tries to quit before registering for all classes
                 if (!continueRegistration)
                 {
-                    continueRegistration = YesOrNoPrompt("You have not yet completed course registration. Continue? (Y/N): ");
+                    continueRegistration = YesOrNoPrompt("Course registration has not been completed. Return to registration? (Y/N): ");
                 }
             }
             
-            //final message before exit
-            Console.WriteLine("\nThank you for registering with us.");
+            // final message before exit
+            Console.WriteLine("\nThank you for using the student self-registration system. Have a nice day!");
             Console.ReadKey();
         }
 
