@@ -30,7 +30,7 @@ namespace ConsoleRegisterStudent
                     Console.WriteLine("\nYou have registered for the maximum of {0} credit hours. ", registration.MaxCredits);
                     break;
                 }
-                else continueRegistration = registration.YesOrNoPrompt("Continue with registration? (Y/N): ");
+                else continueRegistration = registration.YesOrNoPrompt("Continue with registration? (Y/N): ", true);
                 
                 // final exit prompt for if the user tries to quit before registering for all classes
                 if (!continueRegistration)
