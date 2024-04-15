@@ -1,6 +1,6 @@
 public static class Database
 {
-    static Dictionary<int, string> Courses = new()
+    static Dictionary<int, string> courses = new()
     {
         { 1, "IT 145" },
         { 2, "IT 200" },
@@ -11,25 +11,52 @@ public static class Database
         { 7, "IT 330" }
     };
 
-    public static int CourseCount => Courses.Count;
+    public static int CourseCount => courses.Count;
+
+    public static string GetCourseInfo(int courseID) => courses.ContainsKey(courseID) ? courses[courseID] : "";
 
     public static string GetCourseInfo(params int[] courseIDs)
     {
         var sb = new System.Text.StringBuilder();
         for (int i = 0; i < courseIDs.Length; i++)
         {
-            sb.Append($"{Courses[courseIDs[i]]}");
+            sb.Append($"{courses[courseIDs[i]]}");
         }
-        // return the corresponding course id or "" for invalid entries
-        return sb.ToString();//Courses.ContainsKey(courseID) ? Courses[courseID] : "";
+
+        return sb.ToString();
     }
 
     public static string GetAllCourses()
     {
         var sb = new System.Text.StringBuilder();
-        foreach (var course in Courses)
+        foreach (var course in courses)
         {
             sb.Append($"\n[{course.Key}] {course.Value}");
+        }
+
+        return sb.ToString();
+    }
+
+    public static string GetAllCourses(int[] currentlyRegistered)
+    {
+        var sb = new System.Text.StringBuilder();
+        foreach (var course in courses)
+        {
+            // parse the registered courses at each iteration to see if this course is registered
+            bool courseRegistered = false;
+            for (int i = 0; i < currentlyRegistered.Length; i++)
+            {
+                if (course.Key == currentlyRegistered[i])
+                {
+                    courseRegistered = true;
+                    break;
+                }
+            }
+
+            // print a notice beside registered courses
+            if (!courseRegistered)
+                sb.Append($"\n[{course.Key}] {course.Value}");
+            else sb.Append($"\n[{course.Key}] {course.Value} <Registered>");
         }
 
         return sb.ToString();

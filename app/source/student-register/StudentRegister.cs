@@ -104,7 +104,7 @@ namespace ConsoleRegisterStudent
             Console.Clear();
             Console.WriteLine("Courses available for registration:");
 
-            Console.WriteLine(Database.GetAllCourses());
+            Console.WriteLine(Database.GetAllCourses(registeredCourses));
 
             Console.Write("\nPlease enter the number of the course you wish to register for: ");
         }
