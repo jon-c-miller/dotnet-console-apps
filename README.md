@@ -1,0 +1,65 @@
+### .Net Console Apps
+
+
+<details>
+	<summary>Overview</summary>
+	<ul><br>
+		<b>Core Goals For This Project</b>
+		<br>
+		· Demonstrate general competency with C# in a .NET console environment
+        <br>
+        · Demonstrate knowledge of practices for successful integration with version control
+        <br>
+        · Demonstrate abilities regarding refactoring and iteration
+        <br>
+        · Improve methods of application organization, structure, and user-facing flow control
+		<br><br>
+        <i>Note: In active development with additions planned.</i>
+	</ul>
+</details>
+
+<details>
+	<summary>Elements</summary>
+	<ul><br>
+		<b>Student Course Register</b>
+		<br>
+		<i>A refactored version of a student course registration application that I designed as coursework at university.</i>
+		<br><br>
+		The original application displays a short menu of courses, then prompts the user to enter the id of the course they wish to register for. Once the maximum amount of courses that can be registered for is registered, the program thanks the user and exits. The program can be exited early if the user wishes to handle registration later. Courses cannot be registered for twice, and there is basic input checking to avoid some parsing errors.
+		<br><br>
+		Approaching the project again after years of working with C# and building on the techniques I learned at university, the main focus was on improving code readability, separating the code into smaller classes, improving performance by removing boilerplate and transitioning to a more data-based approach, and adding basic quality of life features.
+		<br><br>
+		The refactored application currently includes the following:
+		<br>
+		· A notice beside registered courses
+		<br>
+		· The ability to unregister for a course
+		<br>
+		· Stringent input checking to avoid errors
+		<br>
+		· Improved phrasing in user prompt messages
+		<br>
+		· Some static helper methods to standardize console output and remove boilerplate
+		<br>
+		· The ability to continue running the application after the max amount of courses has been registered
+		<br>
+		· Additional prompts for more intuitive flow-control
+		<br>
+		· A dictionary to store course names by id, which moves to a more maintainable data-based approach
+		<br>
+		· Improvements to the main loop, greatly simplifying readability
+		<br>
+		· Reasonable separation of concerns into additional classes that handle specific aspects of the program
+	</ul>
+</details>
+
+<details open>
+	<summary>How to Use the Project</summary>
+	<ul><br>
+		<b>1.</b> Download and open in desired code editor as usual
+		<br>
+		<b>2.</b> Run Program.cs
+		<br><br>
+		<i>Created in VSCode 1.88 on Linux using .Net (C# Dev Kit)</i>
+	</ul>
+</details>
