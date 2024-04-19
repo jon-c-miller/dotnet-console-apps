@@ -2,11 +2,9 @@ namespace ConsoleRegisterStudent
 {
     class StudentRegister
     {
-        Registration registration;
-
         public void Run()
         {
-            registration = new();
+            Registration registration = new();
 
             // loop until user chooses to quit or registers for maximum amount of courses
             bool continueRegistration = true;
