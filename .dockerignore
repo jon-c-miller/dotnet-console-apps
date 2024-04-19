@@ -1,0 +1,13 @@
+# ignore logs
+*.log
+
+# ignore vscode files
+**/.vscode/
+
+# ignore git and cache files
+.git
+.gitignore
+.cache
+
+# ignore env files
+.env
