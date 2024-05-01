@@ -56,11 +56,8 @@
     <ul>
         <b>Method 2 (run with Docker)</b><br>
         <ul>
-			· Build the docker image
-			<br><code>docker build -t student-course-register .</code>
-			<br>
-			<br>· Run the image
-			<br><code>docker run --rm -it student-course-register</code>
+			· Build the docker image: <code>docker build -t student-course-register .</code>
+			<br>· Run the image: <code>docker run --rm -it student-course-register</code>
 			<br>
 			<br><b>-t</b> tags the resulting image as 'student-course-register'
 			<br><b>--rm</b> removes the image container when done
